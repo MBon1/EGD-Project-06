@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScaleFromAudioClip : MonoBehaviour
+public class ScaleFromMic : MonoBehaviour
 {
     public AudioSource source;
     public Vector3 minScale;
@@ -17,13 +17,13 @@ public class ScaleFromAudioClip : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        float loudness = detection.GetLoudnessFromAudioClip(source.timeSamples, source.clip) * loudnessSensibility;
+        float loudness = detection.GetLoudnessFromMicrophone() * loudnessSensibility;
 
         if (loudness < threshold)
             loudness = 0;
