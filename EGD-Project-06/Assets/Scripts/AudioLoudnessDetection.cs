@@ -4,16 +4,31 @@ using UnityEngine;
 
 public class AudioLoudnessDetection : MonoBehaviour
 {
+    int micIndex = 0;
+    string micName;
+    private AudioClip micClip;
+
     public int sampleWindow = 64;
 
-    [Space(10)]
-    int micIndex = 0;
-    private AudioClip microphoneClip;
+    private void OnEnable()
+    {
+        StartMic();
+    }
+
+    private void OnDisable()
+    {
+        StopMic();
+    }
+
+    private void OnDestroy()
+    {
+        StopMic();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        MicrophoneToAudioClip();
+        
     }
 
     // Update is called once per frame
@@ -22,15 +37,20 @@ public class AudioLoudnessDetection : MonoBehaviour
         
     }
 
-    public void MicrophoneToAudioClip()
+    void StartMic()
     {
-        string microphoneName = Microphone.devices[micIndex];
-        microphoneClip = Microphone.Start(microphoneName, true, 20, AudioSettings.outputSampleRate);        // Look more into AudioSettings
+        micName = Microphone.devices[micIndex];
+        micClip = Microphone.Start(micName, true, 20, AudioSettings.outputSampleRate);        // Look more into AudioSettings
     }
 
-    public float GetLoudnessFromMicrophone()
+    void StopMic()
     {
-        return GetLoudnessFromAudioClip(Microphone.GetPosition(Microphone.devices[micIndex]), microphoneClip);
+        Microphone.End(micName);
+    }
+
+    public float GetLoudnessFromMic()
+    {
+        return GetLoudnessFromAudioClip(Microphone.GetPosition(Microphone.devices[micIndex]), micClip);
     }
 
     public float GetLoudnessFromAudioClip(int clipPosition, AudioClip clip)
@@ -45,15 +65,29 @@ public class AudioLoudnessDetection : MonoBehaviour
         float[] wavData = new float[sampleWindow];
         clip.GetData(wavData, startPosition);
 
-        // Compute Loudness (average amplitude)
+        /*// Compute Loudness (average amplitude)
         float totalLoudness = 0;
         for (int i = 0; i < sampleWindow; i++)
         {
             // Value of wave data ranges from -1 to 1
             // 0 = No Sound
             totalLoudness += Mathf.Abs(wavData[i]);
+        }*/
+
+        // Compute Loudest peak in the audio sample
+        float levelMax = 0;
+        for (int i = 0; i < sampleWindow; i++)
+        {
+            // Value of wave data ranges from -1 to 1
+            // 0 = No Sound
+            float wavePeak = Mathf.Abs(wavData[i]);
+            if (levelMax < wavePeak)
+            {
+                levelMax = wavePeak;
+            }
         }
 
-        return totalLoudness / sampleWindow;
+        //return totalLoudness / sampleWindow;
+        return levelMax;
     }
 }
