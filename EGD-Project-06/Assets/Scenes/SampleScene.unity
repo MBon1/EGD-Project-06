@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f142660647be94ebcfdfe5073dda99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sampleWindow: 2048
+  micIndex: 0
+  sampleWindow: 1024
 --- !u!4 &305046922
 Transform:
   m_ObjectHideFlags: 0
@@ -308,7 +309,7 @@ MonoBehaviour:
   maxScale: {x: 5, y: 1, z: 1}
   detection: {fileID: 305046921}
   loudest: 0
-  loudnessSensibility: 0.75
+  loudnessSensibility: 1
   threshold: 0
 --- !u!1 &963194225
 GameObject:

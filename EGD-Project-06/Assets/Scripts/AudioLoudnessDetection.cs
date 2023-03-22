@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioLoudnessDetection : MonoBehaviour
 {
-    int micIndex = 0;
+    public int micIndex = 0;
     string micName;
     private AudioClip micClip;
 
