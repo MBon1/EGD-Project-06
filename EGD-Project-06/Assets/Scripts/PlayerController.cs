@@ -39,7 +39,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float health = 5;
     float totalHealth = 0;
     [SerializeField] ScaleHP healthBar;
-    [SerializeField] LapManager lapManager;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip sandHitSFX;
+    [SerializeField] string gameOverScene = "TitleScene";
 
 
 
@@ -128,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
             // Subtracting a minimum threshold can avoid tiny scratches at negligible speeds.
             float magnitude = Mathf.Max(0f, impactVelocity.magnitude - minimumDamageThreshold);
-            Debug.Log("IMPACT MAG : " + impactVelocity.magnitude);
+            //Debug.Log("IMPACT MAG : " + impactVelocity.magnitude);
 
             // Using sqrMagnitude can feel good here,
             // making light taps less damaging and high-speed strikes devastating.
@@ -138,7 +140,13 @@ public class PlayerController : MonoBehaviour
 
             if (health <= 0)
             {
-                Debug.Log("Game Over");
+                //Debug.Log("Game Over");
+                SceneLoader.LoadSceneAndDestroyAudioInstance(gameOverScene);
+            }
+            else if (tag == "Track")
+            {
+                audioSource.clip = sandHitSFX;
+                audioSource.Play();
             }
         }
     }
