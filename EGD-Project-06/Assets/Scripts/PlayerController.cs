@@ -64,13 +64,16 @@ public class PlayerController : MonoBehaviour
 
     void GetInput()
     {
-        Vector2 input;
+        Vector2 input = Vector2.zero;
         if (useBalanceBoardControls)
         {
-            input = new Vector2(Input.GetAxisRaw(VERTICAL) * -1, Input.GetAxisRaw(HORIZONTAL));
-            /*horizontalInput = Input.GetAxisRaw(VERTICAL) * -1;
-            verticalInput = Input.GetAxisRaw(HORIZONTAL);*/
-            input.Normalize();
+            if (Input.GetJoystickNames().Length > 0)
+            {
+                input = new Vector2(Input.GetAxisRaw(VERTICAL) * -1, Input.GetAxisRaw(HORIZONTAL));
+                /*horizontalInput = Input.GetAxisRaw(VERTICAL) * -1;
+                verticalInput = Input.GetAxisRaw(HORIZONTAL);*/
+                input.Normalize();
+            }
         }
         else
         {

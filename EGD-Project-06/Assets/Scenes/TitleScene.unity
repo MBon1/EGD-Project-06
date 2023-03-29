@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BEGIN SURFING
+  m_Text: HEAD ON OUT
 --- !u!222 &79684021
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -604,7 +604,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SOUNDWAVE SURFER
+  m_Text: SOUNDWAVE SURFIN'
 --- !u!222 &320221956
 CanvasRenderer:
   m_ObjectHideFlags: 0

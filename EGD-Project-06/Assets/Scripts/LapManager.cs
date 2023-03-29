@@ -7,6 +7,8 @@ public class LapManager : MonoBehaviour
     public List<Checkpoint> checkpoints;
     public int totalLaps;
 
+    public LapTimeManager timeManager;
+
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.gameObject.GetComponent<PlayerController>();
@@ -17,10 +19,12 @@ public class LapManager : MonoBehaviour
 
             Debug.Log("Lap " + player.lapNumber + " / " + totalLaps);
 
-            if (player.lapNumber > totalLaps)
+            if (player.lapNumber >= totalLaps)
             {
                 // End Race
                 Debug.Log("Race End");
+                timeManager.StopStopwatch();
+                SceneLoader.LoadSceneAndDestroyAudioInstance("LapFinished");
             }
         }
     }
