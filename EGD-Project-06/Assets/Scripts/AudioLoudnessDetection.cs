@@ -8,7 +8,9 @@ public class AudioLoudnessDetection : MonoBehaviour
     string micName;
     private AudioClip micClip;
 
-    public int sampleWindow = 64;
+    public int sampleWindow = 1024;   // 64
+    [Header("Sampling Method")]
+    public bool useMaxVolume = true;
 
     private void OnEnable()
     {
@@ -65,29 +67,35 @@ public class AudioLoudnessDetection : MonoBehaviour
         float[] wavData = new float[sampleWindow];
         clip.GetData(wavData, startPosition);
 
-        /*// Compute Loudness (average amplitude)
-        float totalLoudness = 0;
-        for (int i = 0; i < sampleWindow; i++)
-        {
-            // Value of wave data ranges from -1 to 1
-            // 0 = No Sound
-            totalLoudness += Mathf.Abs(wavData[i]);
-        }*/
 
-        // Compute Loudest peak in the audio sample
-        float levelMax = 0;
-        for (int i = 0; i < sampleWindow; i++)
-        {
-            // Value of wave data ranges from -1 to 1
-            // 0 = No Sound
-            float wavePeak = Mathf.Abs(wavData[i]);
-            if (levelMax < wavePeak)
+        if (useMaxVolume) {
+            // Compute Loudest peak in the audio sample
+            float levelMax = 0;
+            for (int i = 0; i < sampleWindow; i++)
             {
-                levelMax = wavePeak;
+                // Value of wave data ranges from -1 to 1
+                // 0 = No Sound
+                float wavePeak = Mathf.Abs(wavData[i]);
+                if (levelMax < wavePeak)
+                {
+                    levelMax = wavePeak;
+                }
             }
-        }
 
-        //return totalLoudness / sampleWindow;
-        return levelMax;
+            return levelMax;
+        }
+        else
+        {
+            // Compute Loudness (average amplitude)
+            float totalLoudness = 0;
+            for (int i = 0; i < sampleWindow; i++)
+            {
+                // Value of wave data ranges from -1 to 1
+                // 0 = No Sound
+                totalLoudness += Mathf.Abs(wavData[i]);
+            }
+            
+            return totalLoudness / sampleWindow;
+        }
     }
 }

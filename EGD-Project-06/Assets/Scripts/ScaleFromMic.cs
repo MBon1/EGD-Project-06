@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScaleFromMic : MonoBehaviour
 {
@@ -13,7 +14,13 @@ public class ScaleFromMic : MonoBehaviour
     public float loudnessSensibility = 1;
     public float threshold = 0f;
 
-    
+    RectTransform rectTransform;
+
+    private void Start()
+    {
+        rectTransform = this.GetComponent<RectTransform>();
+    }
+
     void FixedUpdate()
     {
         float loudness = detection.GetLoudnessFromMic() * loudnessSensibility;
@@ -26,7 +33,14 @@ public class ScaleFromMic : MonoBehaviour
             loudest = loudness;
         }
 
-        transform.localScale = Vector3.Lerp(minScale, maxScale, loudness);
+        if (rectTransform == null)
+        {
+            transform.localScale = Vector3.Lerp(minScale, maxScale, loudness);
+        }
+        else
+        {
+            rectTransform.localScale = Vector3.Lerp(minScale, maxScale, loudness);
+        }
 
         //Debug.Log(loudness);
     }
