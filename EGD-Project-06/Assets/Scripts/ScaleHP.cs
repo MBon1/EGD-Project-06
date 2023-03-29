@@ -10,8 +10,7 @@ public class ScaleHP : MonoBehaviour
 
     public void ScaleHPBar(float newAmt, float total)
     {
-        //healthBar.fillAmount = Mathf.Clamp(newAmt, 0, total) / total;
-        StartCoroutine(Scale(newAmt, total));
+        healthBar.fillAmount = Mathf.Clamp(newAmt, 0, total) / total;
     }
 
     public IEnumerator Scale(float amount, float total)
