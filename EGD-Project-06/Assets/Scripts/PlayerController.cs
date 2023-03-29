@@ -28,11 +28,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] WheelCollider rearLeftWheelCollider;
     [SerializeField] WheelCollider rearRightWheelCollider;
 
+    [Header("Player Race Data")]
+    public int lapNumber = 1;
+    public int checkpointIndex = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    [Header("Collision and Health Data")]
+    Rigidbody rb;
+    [SerializeField] float minimumDamageThreshold = 1;
+    [SerializeField] float collisionDamageScale = 1;
+    [SerializeField] public float health = 5;
+    float totalHealth = 0;
+    [SerializeField] ScaleHP healthBar;
+    [SerializeField] LapManager lapManager;
+
+
+
+    void Awake()
     {
+        rb = this.GetComponent<Rigidbody>();
 
+        totalHealth = health;
+        ScaleHealthBar();
     }
 
     void FixedUpdate()
@@ -46,21 +62,35 @@ public class PlayerController : MonoBehaviour
 
     void GetInput()
     {
+        Vector2 input;
         if (useBalanceBoardControls)
         {
-            horizontalInput = Input.GetAxisRaw(VERTICAL) * -1;
-            verticalInput = Input.GetAxisRaw(HORIZONTAL);
+            input = new Vector2(Input.GetAxisRaw(VERTICAL) * -1, Input.GetAxisRaw(HORIZONTAL));
+            /*horizontalInput = Input.GetAxisRaw(VERTICAL) * -1;
+            verticalInput = Input.GetAxisRaw(HORIZONTAL);*/
+            input.Normalize();
         }
         else
         {
-            horizontalInput = Input.GetAxisRaw(HORIZONTAL);
-            verticalInput = Input.GetAxisRaw(VERTICAL);
+            input = new Vector2(Input.GetAxisRaw(HORIZONTAL), Input.GetAxisRaw(VERTICAL));
+            /*horizontalInput = Input.GetAxisRaw(HORIZONTAL);
+            verticalInput = Input.GetAxisRaw(VERTICAL);*/
         }
+
+        horizontalInput = input.x;
+        verticalInput = input.y;
     }
 
     void HandleMotor()
     {
-        currentMotorForce = (useBalanceBoardControls ? motorForce : motorForce / 2) * Mathf.Lerp(0, verticalInput, detection.GetLoudnessFromMic());
+        if (useBalanceBoardControls)
+        {
+            currentMotorForce = motorForce * Mathf.Lerp(0, verticalInput, detection.GetLoudnessFromMic());
+        }
+        else
+        {
+            currentMotorForce = motorForce * verticalInput;
+        }
         frontLeftWheelCollider.motorTorque = currentMotorForce;
         frontRightWheelCollider.motorTorque = currentMotorForce;
 
@@ -86,6 +116,36 @@ public class PlayerController : MonoBehaviour
 
         frontLeftWheelCollider.steerAngle = currentSteeringAngle;
         frontRightWheelCollider.steerAngle = currentSteeringAngle;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // Impact code from https://gamedev.stackexchange.com/questions/174710/measure-force-of-an-impact-to-deal-damage
+        string tag = collision.gameObject.tag;
+        if (tag == "Track" || tag == "Player" || tag == "CopyPlayer")
+        {
+            Vector3 impactVelocity = collision.relativeVelocity;
+
+            // Subtracting a minimum threshold can avoid tiny scratches at negligible speeds.
+            float magnitude = Mathf.Max(0f, impactVelocity.magnitude - minimumDamageThreshold);
+            Debug.Log("IMPACT MAG : " + impactVelocity.magnitude);
+
+            // Using sqrMagnitude can feel good here,
+            // making light taps less damaging and high-speed strikes devastating.
+            float damage = magnitude * collisionDamageScale;
+            health -= damage;
+            ScaleHealthBar();
+
+            if (health <= 0)
+            {
+                Debug.Log("Game Over");
+            }
+        }
+    }
+
+    void ScaleHealthBar()
+    {
+        healthBar.ScaleHPBar(health, totalHealth);
     }
 
     /// References: 

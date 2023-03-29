@@ -41,15 +41,22 @@ public class AxesVisualizer : MonoBehaviour
 
     void GetInput()
     {
+        Vector2 input;
         if (useBalanceBoardControls)
         {
-            horizontalInput = Input.GetAxisRaw(VERTICAL) * -1;
-            verticalInput = Input.GetAxisRaw(HORIZONTAL);
+            input = new Vector2(Input.GetAxisRaw(VERTICAL) * -1, Input.GetAxisRaw(HORIZONTAL));
+            /*horizontalInput = Input.GetAxisRaw(VERTICAL) * -1;
+            verticalInput = Input.GetAxisRaw(HORIZONTAL);*/
         }
         else
         {
-            horizontalInput = Input.GetAxisRaw(HORIZONTAL);
-            verticalInput = Input.GetAxisRaw(VERTICAL);
+            input = new Vector2(Input.GetAxisRaw(HORIZONTAL), Input.GetAxisRaw(VERTICAL));
+            /*horizontalInput = Input.GetAxisRaw(HORIZONTAL);
+            verticalInput = Input.GetAxisRaw(VERTICAL);*/
         }
+
+        input.Normalize();
+        horizontalInput = input.x;
+        verticalInput = input.y;
     }
 }

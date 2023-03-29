@@ -1604,11 +1604,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33308567ea78e0340af2fac6c79eea39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 500
+  motorForce: 750
   breakForce: 5
   maxSteeringAngle: 30
   detection: {fileID: 1376100907}
-  useBalanceBoardControls: 0
+  useBalanceBoardControls: 1
   frontLeftWheelCollider: {fileID: 654221457}
   frontRightWheelCollider: {fileID: 1327638399}
   rearLeftWheelCollider: {fileID: 731041520}
