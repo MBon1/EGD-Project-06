@@ -1615,6 +1615,10 @@ MonoBehaviour:
   rearRightWheelCollider: {fileID: 534721763}
   lapNumber: 0
   checkpointIndex: 0
+  minimumDamageThreshold: 1
+  collisionDamageScale: 1
+  health: 5
+  healthBar: {fileID: 2079934298}
 --- !u!54 &1417709951
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2484,10 +2488,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6809216966592649164, guid: 0e78024f9bf248347931ba92a4c9e350, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 6406519707280030413, guid: 0e78024f9bf248347931ba92a4c9e350, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1417709950}
     - target: {fileID: 6809216967167048236, guid: 0e78024f9bf248347931ba92a4c9e350, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -2536,16 +2540,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Visualizers
       objectReference: {fileID: 0}
-    - target: {fileID: 6809216967167048239, guid: 0e78024f9bf248347931ba92a4c9e350, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6809216967473681257, guid: 0e78024f9bf248347931ba92a4c9e350, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e78024f9bf248347931ba92a4c9e350, type: 3}
+--- !u!114 &2079934298 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3142649160865670681, guid: 0e78024f9bf248347931ba92a4c9e350, type: 3}
+  m_PrefabInstance: {fileID: 2079934297}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097fd0180c3c7c4419c4cab19e3d2ea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6289465456328206465
 PrefabInstance:
   m_ObjectHideFlags: 0

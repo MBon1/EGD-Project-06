@@ -10,7 +10,7 @@ public class LapManager : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.gameObject.GetComponent<PlayerController>();
-        if (player != null && player.checkpointIndex == checkpoints.Count)
+        if (other.gameObject.tag == "Player" && player != null && player.checkpointIndex == checkpoints.Count)
         {
             player.checkpointIndex = 0;
             player.lapNumber++;

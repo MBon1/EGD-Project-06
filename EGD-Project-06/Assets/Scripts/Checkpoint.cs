@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.gameObject.GetComponent<PlayerController>();
-        if (player != null)
+        if (other.gameObject.tag == "Player" && player != null)
         {
             if (player.checkpointIndex == index - 1)
                 player.checkpointIndex = index;
